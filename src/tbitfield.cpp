@@ -120,13 +120,42 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-    return FAKE_BITFIELD;
+    TBitField a(0);
+    int i;
+    if (BitLen >= bf.BitLen) {
+        a = *this;
+        for (i = 0; i < bf.MemLen; i++)
+            a.pMem[a.MemLen - i - 1] = pMem[MemLen - i - 1] | bf.pMem[bf.MemLen - i - 1];
+        for (; i < MemLen; i++)
+            a.pMem[a.MemLen - i - 1] = pMem[MemLen - i - 1];
+    }
+    else {
+        a = bf;
+        for (i = 0; i < MemLen; i++)
+            a.pMem[a.MemLen - i - 1] = pMem[MemLen - i - 1] | bf.pMem[bf.MemLen - i - 1];
+        for (; i < MemLen; i++)
+            a.pMem[a.MemLen - i - 1] = bf.pMem[bf.MemLen - i - 1];
+    }
+    return a;
 }
+//ok
 
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
-    return FAKE_BITFIELD;
+    TBitField a(0), b(0);
+    if (BitLen >= bf.BitLen) {
+        a = *this;
+        for (int i = 0; i < bf.MemLen; i++)
+            a.pMem[a.MemLen - i - 1] = pMem[MemLen - i - 1] & bf.pMem[bf.MemLen - i - 1];
+    }
+    else {
+        a = bf;
+        for (int i = 0; i < MemLen; i++)
+            a.pMem[a.MemLen - i - 1] = pMem[MemLen - i - 1] & bf.pMem[bf.MemLen - i - 1];
+    }
+    return a;
 }
+//ok
 
 TBitField TBitField::operator~(void) // отрицание
 {
@@ -142,10 +171,41 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
+    TELEM k;
+    char f;
+    char* s = "enter your BitField";
+    cout << s << endl;;
+    for (int i = 0; i < bf.MemLen; i++) {
+        k = 0;
+        for (int j = 0; j < 32; j++) {
+            istr >> f;
+            if (f == ' ') { j--; continue; }
+            k = (k << 1) | (f - 48) & 1;
+        }
+        bf.pMem[i] = k;
+    }
     return istr;
 }
+//ok
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
+    TELEM k, f;
+    for (int i = 0; i < bf.MemLen; i++) {
+        k = bf.pMem[i];
+        f = 0;
+        for (int j = 0; j < 32; j++) {
+            f = (f << 1);
+            f = f | (k & 1);
+            k = k >> 1;
+        }
+        for (int j = 0; j < 32; j++) {
+            ostr << (f & 1);
+            f = f >> 1;
+        }
+        ostr << " ";
+    }
+    ostr << endl;
     return ostr;
 }
+//ok
