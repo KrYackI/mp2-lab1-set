@@ -310,16 +310,16 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
   EXPECT_NE(bf1, bf2);
 }
 
-TEST(TBitField, bitfield_IO)
-{
-    const int size = 4 * 32;
-    TBitField bf1(size), bf2(size);
-
-    cin >> bf1;
-
-    bf2 = bf1;
-
-    cout << bf2;
-
-    ASSERT_NO_THROW();
-}
+//TEST(TBitField, bitfield_IO)
+//{
+//    const int size = 4 * 32;
+//    TBitField bf1(size), bf2(size);
+//
+//    cin >> bf1;
+//
+//    bf2 = bf1;
+//
+//    cout << bf2;
+//
+//    ASSERT_NO_THROW();
+//}

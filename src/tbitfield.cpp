@@ -14,7 +14,8 @@ static TBitField FAKE_BITFIELD(1);
 TBitField::TBitField(int len)
 {
     int k = sizeof(int);
-    //if (len < 0) throw "negative len";
+    if (len <= 0) 
+        throw ("negative_len");
     BitLen = len;
     MemLen = (len + k * 8 - 1) >> k + 1;
     pMem = new TELEM[MemLen];
@@ -120,7 +121,7 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-    TBitField a(0);
+    TBitField a(1);
     int i;
     if (BitLen >= bf.BitLen) {
         a = *this;
@@ -142,7 +143,7 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
-    TBitField a(0), b(0);
+    TBitField a(1), b(1);
     if (BitLen >= bf.BitLen) {
         a = *this;
         for (int i = 0; i < bf.MemLen; i++)
@@ -171,19 +172,6 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
-    //TELEM k;
-    //char f;
-    //char* s = "enter your BitField";
-    //cout << s << endl;;
-    //for (int i = 0; i < bf.MemLen; i++) {
-    //    k = 0;
-    //    for (int j = 0; j < 32; j++) {
-    //        istr >> f;
-    //        if (f == ' ') { j--; continue; }
-    //        k = (k << 1) | (f - 48) & 1;
-    //    }
-    //    bf.pMem[i] = k;
-    //}
     char c;
     for (int i = bf.BitLen - 1; i >= 0; i--) {
         istr >> c;
@@ -195,21 +183,6 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
-    //TELEM k, f;
-    //for (int i = 0; i < bf.MemLen; i++) {
-    //    k = bf.pMem[i];
-    //    f = 0;
-    //    for (int j = 0; j < 32; j++) {
-    //        f = (f << 1);
-    //        f = f | (k & 1);
-    //        k = k >> 1;
-    //    }
-    //    for (int j = 0; j < 32; j++) {
-    //        ostr << (f & 1);
-    //        f = f >> 1;
-    //    }
-    //    ostr << " ";
-    //}
     for (int i = bf.BitLen - 1; i >= 0; i--)
         ostr << bf.GetBit(i);
     ostr << endl;
