@@ -171,18 +171,23 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
-    TELEM k;
-    char f;
-    char* s = "enter your BitField";
-    cout << s << endl;;
-    for (int i = 0; i < bf.MemLen; i++) {
-        k = 0;
-        for (int j = 0; j < 32; j++) {
-            istr >> f;
-            if (f == ' ') { j--; continue; }
-            k = (k << 1) | (f - 48) & 1;
-        }
-        bf.pMem[i] = k;
+    //TELEM k;
+    //char f;
+    //char* s = "enter your BitField";
+    //cout << s << endl;;
+    //for (int i = 0; i < bf.MemLen; i++) {
+    //    k = 0;
+    //    for (int j = 0; j < 32; j++) {
+    //        istr >> f;
+    //        if (f == ' ') { j--; continue; }
+    //        k = (k << 1) | (f - 48) & 1;
+    //    }
+    //    bf.pMem[i] = k;
+    //}
+    char c;
+    for (int i = bf.BitLen - 1; i >= 0; i--) {
+        istr >> c;
+        if (c == 49) bf.SetBit(i);
     }
     return istr;
 }
@@ -190,21 +195,23 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
-    TELEM k, f;
-    for (int i = 0; i < bf.MemLen; i++) {
-        k = bf.pMem[i];
-        f = 0;
-        for (int j = 0; j < 32; j++) {
-            f = (f << 1);
-            f = f | (k & 1);
-            k = k >> 1;
-        }
-        for (int j = 0; j < 32; j++) {
-            ostr << (f & 1);
-            f = f >> 1;
-        }
-        ostr << " ";
-    }
+    //TELEM k, f;
+    //for (int i = 0; i < bf.MemLen; i++) {
+    //    k = bf.pMem[i];
+    //    f = 0;
+    //    for (int j = 0; j < 32; j++) {
+    //        f = (f << 1);
+    //        f = f | (k & 1);
+    //        k = k >> 1;
+    //    }
+    //    for (int j = 0; j < 32; j++) {
+    //        ostr << (f & 1);
+    //        f = f >> 1;
+    //    }
+    //    ostr << " ";
+    //}
+    for (int i = bf.BitLen - 1; i >= 0; i--)
+        ostr << bf.GetBit(i);
     ostr << endl;
     return ostr;
 }
