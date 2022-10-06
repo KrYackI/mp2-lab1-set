@@ -107,6 +107,13 @@ TSet TSet::operator~(void) // дополнение
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
+    int i, n;
+    char c;
+    n = s.GetMaxPower();
+    for (i = 0; i < n; i++) {
+        istr >> c;
+        if (c == 49) s.InsElem(i);
+    }
     return istr;
 }
 

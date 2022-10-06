@@ -300,10 +300,9 @@ TEST(TSet, IO)
 {
     const int size = 32;
     TBitField bf1(size);
+    TSet set(size);
 
-    cin >> bf1;
-
-    TSet set(bf1);
+    cin >> set;
 
     cout << set;
 
