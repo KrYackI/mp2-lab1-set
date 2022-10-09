@@ -160,11 +160,12 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 
 TBitField TBitField::operator~(void) // отрицание
 {
+    TBitField tmp(*this);
     for (int i = 1; i < MemLen; i++)
-        pMem[i] = ~(pMem[i]);
+        tmp.pMem[i] = ~(tmp.pMem[i]);
     int n = 32 - BitLen + MemLen * 32;
-    pMem[0] = ~(pMem[0] << n) >> n;
-    return *this;
+    tmp.pMem[0] = ~(tmp.pMem[0] << n) >> n;
+    return tmp;
 }
 //ok
 
