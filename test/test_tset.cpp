@@ -295,3 +295,16 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, IO)
+{
+    const int size = 32;
+    TBitField bf1(size);
+    TSet set(size);
+
+    cin >> set;
+
+    cout << set;
+
+	EXPECT_NO_THROW();
+}
